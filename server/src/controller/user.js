@@ -6,6 +6,10 @@ const { getUserInfo, createUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResultModel')
 const { registerNameNotExitInfo, registerNameExitInfo, registerFailInfo } = require('../model/ErrorInfo')
 const { doCrypto } = require('../utils/cryp')
+const { TOKEN_SECRET_KEY } = require('../conf/secretKeys')
+const jwt = require('jsonwebtoken')
+const util = require('util')
+const verify = util.promisify(jwt.verify)
 async function isExist(userName) {
   const userInfo = await getUserInfo(userName)
   if (userInfo) {
@@ -34,7 +38,40 @@ async function register({ userName, password, gender }) {
   }
 }
 
+// 登录控制器
+async function login(ctx, userName, password) {
+  const userInfo = await getUserInfo(userName, doCrypto(password))
+  if (!userInfo) {
+    // 登录失败
+    return new ErrorModel({
+      errno: 10004,
+      message: '账号不存在!'
+    })
+  }
+
+  // 加密userinfo
+  const token = jwt.sign(userInfo, TOKEN_SECRET_KEY, { expiresIn: '1h' }) // 设置token
+  return new SuccessModel(token)
+}
+
+// 获取当前用户信息的控制器
+// Bearer 456
+async function getUserPersonInfo(ctx, userName, password) {
+  const token = ctx.header.authorization
+  try {
+    const payLoad = await verify(token.split(' ')[1], TOKEN_SECRET_KEY)
+    return new SuccessModel(payLoad)
+  } catch (err) {
+    return new ErrorModel({
+      errno: 10010,
+      message: 'token获取失败!'
+    })
+  }
+}
+
 module.exports = {
   isExist,
-  register
+  register,
+  login,
+  getUserPersonInfo
 }

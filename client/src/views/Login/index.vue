@@ -14,6 +14,7 @@
 </template>
 <script>
 import { login, register } from '@/api/login'
+// import { setToken } from '@/utils/auth'
 export default {
   data() {
     return {
@@ -30,8 +31,12 @@ export default {
         console.log(res)
         if (res.errno === 0) {
           this.$message({
-            message: '用户已经存在',
+            message: '登录成功!',
             type: 'success'
+          })
+          this.$store.commit('user/SET_TOKEN', res.data)
+          this.$router.push({
+            path: '/Home'
           })
         }
       })

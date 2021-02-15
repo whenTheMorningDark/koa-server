@@ -3,11 +3,11 @@ import {
   Message
 } from 'element-ui'
 // const errorMsg = [10001, 10002, 10003]
-// import store from '@/store'
+import store from '@/store'
 // import {
 //   getCookies
 // } from '@/utils/user'
-
+import { getToken } from '@/utils/auth'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   timeout: 5000 // request timeout
@@ -16,9 +16,9 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    // if (store.getters.token) {
-    //   config.headers.Authorization = getCookies('token')
-    // }
+    if (store.getters.token) {
+      config.headers.Authorization = `Bearer ${getToken('Token-kafei')}`
+    }
     return config
   },
   error => {
