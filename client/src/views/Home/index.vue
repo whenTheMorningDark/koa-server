@@ -7,7 +7,7 @@ import { getUserInfo } from '@/api/login'
 export default {
   async created() {
     const userInfo = await this.getUserInfo()
-    console.log(userInfo + 'a')
+    console.log(userInfo)
   },
   methods: {
     getUserInfo() {

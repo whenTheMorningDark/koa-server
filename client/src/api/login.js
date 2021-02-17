@@ -25,3 +25,15 @@ export function getUserInfo() {
     method: 'get'
   })
 }
+
+/**
+ * @description 修改用户信息接口
+ * @param {data} data
+ */
+export function updateUserInfo(data) {
+  return request({
+    url: '/api/user/changeInfo',
+    method: 'post',
+    data
+  })
+}

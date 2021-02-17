@@ -2,7 +2,7 @@
  * user controller
  */
 // 用户名称是否存在
-const { getUserInfo, createUser } = require('../services/user')
+const { getUserInfo, createUser, updateUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResultModel')
 const { registerNameNotExitInfo, registerNameExitInfo, registerFailInfo } = require('../model/ErrorInfo')
 const { doCrypto } = require('../utils/cryp')
@@ -69,9 +69,19 @@ async function getUserPersonInfo(ctx, userName, password) {
   }
 }
 
+// 修改个人信息controller
+async function changeInfo({ ctx, nickName, city, picture, password }) {
+  const token = ctx.header.authorization
+  const payLoad = await verify(token.split(' ')[1], TOKEN_SECRET_KEY)
+  const username = payLoad.username
+  const data = await updateUser({ newNickName: nickName, newCity: city, newPicture: picture, newPassword: password }, { userName: username })
+  return data ? new SuccessModel({ nickName, city, picture }) : new ErrorModel({ errno: 10030, message: '数据修改失败!' })
+}
+
 module.exports = {
   isExist,
   register,
   login,
-  getUserPersonInfo
+  getUserPersonInfo,
+  changeInfo
 }
