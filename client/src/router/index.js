@@ -14,6 +14,10 @@ const constantRoutes = [
   {
     path: '/Home',
     component: () => import('@/views/Home/index')
+  },
+  {
+    path: '/Person',
+    component: () => import('@/views/Person/index')
   }
 ]
 const createRouter = () => new Router({
