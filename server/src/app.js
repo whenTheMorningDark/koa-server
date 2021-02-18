@@ -13,6 +13,7 @@ const jwtKoa = require('koa-jwt')
 // const index = require('./routes/index')
 const users = require('./routes/api/user')
 const utils = require('./routes/api/utils')
+const blog = require('./routes/api/blog')
 const { TOKEN_SECRET_KEY } = require('./conf/secretKeys')
 // error handler
 onerror(app)
@@ -22,7 +23,7 @@ app.use(require('koa-static')(__dirname + '/public'))
 app.use(jwtKoa({
   secret: TOKEN_SECRET_KEY
 }).unless({
-  path: ['/api/user/login']
+  path: ['/api/user/login', '/api/user/register']
 }))
 
 // middlewares
@@ -65,6 +66,7 @@ app.use(async (ctx, next) => {
 // app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(utils.routes(), utils.allowedMethods())
+app.use(blog.routes(), blog.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

@@ -8,3 +8,12 @@ export function upload(data) {
     data
   })
 }
+
+// 创建微博
+export function createBlog(data) {
+  return request({
+    url: '/api/blog/create',
+    method: 'post',
+    data
+  })
+}

@@ -10,12 +10,16 @@
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
     <el-button type="primary" size="small" @click="updateInfo">修改</el-button>
+    <el-button type="primary" size="small" @click="sendWeiBo">发布微博</el-button>
   </div>
 </template>
 
 <script>
-import { upload } from '@/api/upload'
+import { upload, createBlog } from '@/api/upload'
 import { updateUserInfo } from '@/api/login'
+
+// import { createBlog } from '@/api/Blog'
+
 export default {
   data() {
     return {
@@ -46,6 +50,16 @@ export default {
             type: 'success'
           })
         }
+      })
+    },
+    // 发布微博的方法
+    sendWeiBo() {
+      const data = {
+        content: 'wwqzxczxcfgfdgfd456123ww',
+        image: 'wxxxxxaaaawww'
+      }
+      createBlog(data).then(res => {
+        console.log(res)
       })
     }
   }
