@@ -37,6 +37,10 @@ const User = Seq.define('user', {
   city: {
     type: STRING,
     comment: '城市'
+  },
+  test: {
+    type: STRING,
+    comment: '测试的字段'
   }
 })
 module.exports = User

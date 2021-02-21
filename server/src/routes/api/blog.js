@@ -4,8 +4,10 @@
 const router = require('koa-router')()
 const getTokenInfo = require('../../utils/getToken')
 const { create } = require('../../controller/blog')
+const { genValidator } = require('../../middlewares/validator')
+const blogValidator = require('../../validator/blog')
 router.prefix('/api/blog')
-router.post('/create', async (ctx) => {
+router.post('/create', genValidator(blogValidator), async (ctx) => {
   const { content, image } = ctx.request.body
   const userInfo = await getTokenInfo(ctx)
   console.log(userInfo)

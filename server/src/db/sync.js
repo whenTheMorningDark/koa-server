@@ -6,7 +6,7 @@ seq.authenticate().then(() => {
   console.log('error')
 })
 
-seq.sync({ force: true }).then(() => {
+seq.sync({ alter: true }).then(() => {
   console.log('sync out')
   process.exit()
 })

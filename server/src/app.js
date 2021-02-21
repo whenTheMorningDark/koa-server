@@ -6,6 +6,29 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt')
+const cors = require('koa2-cors')
+const whiteOrigin = ['http://192.168.31.243:8082']
+app.use(cors({
+  origin: function(ctx) {
+    if (whiteOrigin.includes(ctx.header.origin)) {
+      return '*'
+    } else {
+      return false
+    }
+    // console.log('header', ctx.header.origin)
+
+    // console.log(ctx.url)
+    // if (ctx.url === '/test') {
+    //   return false
+    // }
+    // return '*'
+  },
+  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+  maxAge: 5,
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'DELETE'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+}))
 // const path = require('path')
 // const session = require('koa-generic-session')
 // const redisStore = require('koa-redis')
