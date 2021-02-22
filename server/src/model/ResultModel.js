@@ -13,7 +13,7 @@ class BaseModel {
 class SuccessModel extends BaseModel {
   constructor(data = {}) {
     super({
-      code: 0,
+      errno: 0,
       data
     })
   }

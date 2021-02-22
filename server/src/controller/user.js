@@ -51,7 +51,13 @@ async function login(ctx, userName, password) {
 
   // 加密userinfo
   const token = jwt.sign(userInfo, TOKEN_SECRET_KEY, { expiresIn: '1h' }) // 设置token
-  return new SuccessModel(token)
+  delete userInfo['password']
+  return new SuccessModel(
+    {
+      token,
+      userInfo: userInfo
+    }
+  )
 }
 
 // 获取当前用户信息的控制器
